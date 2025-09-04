@@ -1,0 +1,9 @@
+{
+    "build": {
+      "env": {
+        "NPM_CONFIG_ARCH": "x64",
+        "NPM_CONFIG_PLATFORM": "linux"
+      }
+    }
+  }
+  
