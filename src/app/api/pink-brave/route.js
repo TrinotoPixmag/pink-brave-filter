@@ -1,22 +1,33 @@
-import Jimp from "jimp";
+import sharp from "sharp";
 
 export async function POST(req) {
-  const data = await req.formData();
-  const file = data.get("file");
-  if (!file) return new Response("No file uploaded", { status: 400 });
+  try {
+    const data = await req.formData();
+    const file = data.get("file");
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const image = await Jimp.read(buffer);
+    if (!file) {
+      return new Response(JSON.stringify({ error: "No file uploaded" }), {
+        status: 400,
+      });
+    }
 
-  // filter pink-brave (saturasi + tint)
-  image.color([
-    { apply: "saturate", params: [50] },
-    { apply: "mix", params: ["#ff69b4", 50] } // tint pink
-  ]);
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
 
-  const out = await image.getBufferAsync(Jimp.MIME_JPEG);
+    const outputBuffer = await sharp(buffer)
+      .modulate({ saturation: 2 }) 
+      .tint("#ff69b4") 
+      .toBuffer();
 
-  return new Response(out, {
-    headers: { "Content-Type": "image/jpeg" },
-  });
+    return new Response(outputBuffer, {
+      status: 200,
+      headers: {
+        "Content-Type": "image/jpeg",
+      },
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+    });
+  }
 }
