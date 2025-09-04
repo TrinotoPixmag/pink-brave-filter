@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "npm rebuild sharp --platform=linux --arch=x64"
+    "vercel-build": "npm rebuild sharp --platform=linux --arch=x64 && next build --turbopack"
   },
   "dependencies": {
     "formidable": "^3.5.4",
