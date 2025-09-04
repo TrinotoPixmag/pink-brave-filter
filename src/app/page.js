@@ -98,7 +98,7 @@ export default function Home() {
           sedangkan <span className="text-green-700 font-medium">hijau</span> mewakili keseimbangan dan keteguhan hati.  
           Dengan menggabungkan keduanya, tercipta nuansa unik yang menginspirasi untuk tetap berani menjadi diri sendiri.
         </p>
-        <p>- by Trinotorianto</p>
+        <p>- Developed by TrinotoPixmag</p>
       </section>
     </main>
   );
