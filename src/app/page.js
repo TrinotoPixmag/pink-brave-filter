@@ -20,12 +20,7 @@ export default function Home() {
       body: formData,
     });
 
-    if (!res.ok) {
-      alert("Upload gagal!");
-      setLoading(false);
-      return;
-    }
-
+    if (!res.ok) throw new Error("Upload failed");
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     setResult(url);
