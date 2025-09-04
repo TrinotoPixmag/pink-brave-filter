@@ -1,103 +1,109 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    if (!file) return;
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/pink-brave", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      alert("Upload gagal!");
+      setLoading(false);
+      return;
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    setResult(url);
+    setLoading(false);
+  };
+
+  return (
+    <main className="flex flex-col items-center min-h-screen p-6 bg-gradient-to-b from-pink-100 to-white">
+      {/* Header */}
+      <h1 className="text-4xl font-extrabold mb-2 text-pink-700 drop-shadow">
+        🎨 Pink Brave Filter
+      </h1>
+      <p className="text-gray-600 mb-8 text-center max-w-xl">
+        Unggah fotomu dan ubah menjadi karya dengan nuansa <b>Pink Brave</b> —
+        kombinasi warna pink & hijau yang melambangkan keberanian, ekspresi, dan semangat.
+      </p>
+
+      {/* Upload Form */}
+      <form
+        onSubmit={handleUpload}
+        className="mb-6 flex flex-col gap-4 items-center bg-white shadow-lg rounded-xl p-6 border border-pink-200"
+      >
+        <input
+          type="file"
+          accept="image/*"
+          className="block text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+                     file:rounded-lg file:border-0
+                     file:text-sm file:font-semibold
+                     file:bg-pink-100 file:text-pink-700
+                     hover:file:bg-pink-200"
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+            setPreview(URL.createObjectURL(e.target.files[0]));
+            setResult(null);
+          }}
+        />
+        <button
+          type="submit"
+          disabled={!file || loading}
+          className="px-6 py-2 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition disabled:opacity-50"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          {loading ? "Processing..." : "Apply Filter"}
+        </button>
+      </form>
+
+      {/* Image Preview */}
+      <div className="flex flex-wrap gap-8 justify-center">
+        {preview && (
+          <div className="text-center">
+            <p className="font-semibold mb-2">Original</p>
+            <img src={preview} alt="preview" className="w-64 rounded-xl shadow-md" />
+          </div>
+        )}
+        {result && (
+          <div className="text-center">
+            <p className="font-semibold mb-2">Pink Brave</p>
+            <img src={result} alt="result" className="w-64 rounded-xl shadow-md border border-pink-200" />
+            <a
+              href={result}
+              download="pink-brave.jpg"
+              className="inline-block mt-3 px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition"
+            >
+              Download
+            </a>
+          </div>
+        )}
+      </div>
+
+      {/* Why Brave Pink */}
+      <section className="mt-12 max-w-2xl text-center">
+        <h2 className="text-2xl font-bold text-pink-700 mb-3">Kenapa Brave Pink?</h2>
+        <p className="text-gray-700 leading-relaxed">
+          <b>Pink Brave</b> adalah simbol keberanian dalam mengekspresikan diri.  
+          Warna <span className="text-pink-600 font-medium">pink</span> melambangkan kasih sayang dan kreativitas,  
+          sedangkan <span className="text-green-700 font-medium">hijau</span> mewakili keseimbangan dan keteguhan hati.  
+          Dengan menggabungkan keduanya, tercipta nuansa unik yang menginspirasi untuk tetap berani menjadi diri sendiri.
+        </p>
+      </section>
+    </main>
   );
 }
