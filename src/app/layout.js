@@ -13,11 +13,11 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Pink Brave Filter – Efek Warna Pink Soft",
-  description: "Coba Pink Brave Filter untuk memberikan efek warna pink soft yang elegan dan modern pada foto Anda",
+  description: "Coba Pink Brave Filter untuk memberikan efek warna pink soft yang elegan dan modern pada foto Anda.",
   keywords: ["pink brave filter", "filter foto pink", "pink soft effect", "edit foto pink", "filter warna elegan"],
   openGraph: {
     title: "Pink Brave Filter – Efek Warna Pink Soft",
-    description: "Gunakan Pink Brave Filter untuk mengubah foto dengan nuansa pink soft yang lebih elegan",
+    description: "Gunakan Pink Brave Filter untuk mengubah foto dengan nuansa pink soft yang lebih elegan.",
     url: "https://pink-brave-filter.vercel.app",
     images: [
       {
@@ -31,7 +31,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Pink Brave Filter – Efek Warna Pink Soft",
-    description: "Filter Pink Brave untuk hasil foto lebih elegan dengan nuansa pink soft",
+    description: "Filter Pink Brave untuk hasil foto lebih elegan dengan nuansa pink soft.",
     images: ["https://pink-brave-filter.vercel.app/pink-brave.jpg"],
   },
 };
